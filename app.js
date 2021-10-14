@@ -21,6 +21,31 @@
 const request = require ('request')
 const geocode = require ('./utils/geocode')  // nasa local file siya san utils
 const forecast = require ('./utils/forecast')
+
+const address = process.argv[2]
+
+if (!address) {
+  console.log('Please provide an address')
+}else {
+  geocode (address, (error, { latitude, longitude, location}) => {
+    if (error){
+      return console.log(error)
+    }
+  
+   forecast(latitude, longitude, (error, forecastData) => {
+    if (error){
+      return console.log(error)
+    }
+  
+    console.log(location)
+    console.log(forecastData)
+  })           
+  
+  })
+  
+}
+
+
 //  the url below is a weather stack
 // const url = 'http://api.weatherstack.com/current?access_key=175197c5e885f6b5dd9f22cb919749d6&query=12.6650,%20123.8877 '
 
@@ -35,10 +60,10 @@ const forecast = require ('./utils/forecast')
 //     }
 // })
 
-forecast(-75.7088, 44.1545, (error, data) => {
-    console.log('Error', error)
-    console.log('Data', data)
-  })           
+// forecast(-75.7088, 44.1545, (error, data) => {
+//     console.log('Error', error)
+//     console.log('Data', data)
+//   })           
 
    
 
@@ -83,10 +108,26 @@ forecast(-75.7088, 44.1545, (error, data) => {
 
 // dahil nakuha na an url sa una an gagamitun nmn is geocoding kun baga siya an variable
 
+// geocode (address, (error, data) => {
+//   if (error){
+//     return console.log(error)
+//   }
 
-//  --------ini  sa geocode ------
-// geocode ('iloveyou', (error, data) => {
-//  console.log('Error', error)
-//  console.log('Data', data)
+//  forecast(data.latitude, data.longitude, (error, forecastData) => {
+//   if (error){
+//     return console.log(error)
+//   }
+
+//   console.log(data.location)
+//   console.log(forecastData)
+// })           
+
 // })
-// ----geocode----------------
+
+// goal: Accept location via command line argument
+// 1.Access the command line argument without yargs
+// 2. use the string value as the input for geocode
+// 3. Only geocode if a location was provided
+// 4. Test your work with a couple locations
+
+
